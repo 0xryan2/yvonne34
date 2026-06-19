@@ -32,11 +32,11 @@
     color: var(--dark);
     /* gradient runs behind the ENTIRE page, fixed so all cards share one wash */
     background: linear-gradient(180deg,
-        var(--grad-top) 0%,
-        var(--grad-top) 12%,
-        var(--grad-mid) 42%,
-        var(--grad-base) 78%,
-        var(--grad-base) 100%);
+        #C9807F 0%,
+        var(--grad-top) 18%,
+        var(--grad-mid) 45%,
+        var(--grad-base) 72%,
+        #F5E4DA 100%);
     background-attachment: fixed;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
@@ -52,26 +52,26 @@
 
   /* ----------  HERO (PRD §4.4)  ---------- */
   .hero {
-    min-height: 100svh;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     position: relative;
-    padding-top: 13svh;       /* push content into the upper third */
+    padding-top: 15svh;
+    padding-bottom: 36px;
     overflow: hidden;
   }
-  /* soft white radial sun, top-center, low opacity */
+  /* soft white radial sun glow, top-center */
   .hero::before {
     content: "";
     position: absolute;
-    top: -14%;
+    top: -20%;
     left: 50%;
     transform: translateX(-50%);
-    width: 130vw;
-    max-width: 620px;
+    width: 160vw;
+    max-width: 800px;
     aspect-ratio: 1 / 1;
-    background: radial-gradient(circle, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 34%, rgba(255,255,255,0) 62%);
+    background: radial-gradient(circle, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.35) 30%, rgba(255,255,255,0.12) 55%, rgba(255,255,255,0) 70%);
     pointer-events: none;
     z-index: 0;
   }
@@ -107,12 +107,10 @@
     gap: 7px;
     opacity: 0.95;
   }
-  .subline .bazhang { width: 18px; height: 18px; }
-
   /* frosted card lower in hero */
   .hero-card {
-    margin-top: auto;
-    margin-bottom: 7svh;
+    margin-top: 30px;
+    margin-bottom: 0;
     width: 100%;
     background: rgba(242, 217, 201, 0.62);
     backdrop-filter: blur(10px);
@@ -132,32 +130,10 @@
   .hero-card .instruction {
     font-size: 13px;
     color: var(--muted);
-    margin: 0 0 18px;
+    margin: 0;
     line-height: 1.5;
   }
 
-  /* fully-rounded pills (radius = height/2) */
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    min-height: 48px;
-    padding: 0 26px;
-    border-radius: 24px;
-    border: none;
-    background: var(--white);
-    color: var(--accent);
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 15px;
-    cursor: pointer;
-    text-decoration: none;
-    box-shadow: 0 6px 16px rgba(110,68,63,0.12);
-    transition: transform .18s ease, box-shadow .18s ease;
-  }
-  .pill:active { transform: translateY(1px) scale(0.99); }
-  .pill:focus-visible,
   .day:focus-visible,
   .session:focus-visible {
     outline: 3px solid rgba(255,255,255,0.9);
@@ -211,8 +187,6 @@
     background: rgba(217, 161, 160, 0.35);
     color: var(--dark);
   }
-  .chip .bazhang { width: 15px; height: 15px; }
-
   .chapter-title {
     font-family: 'Fraunces', 'Playfair Display', serif;
     font-weight: 700;
@@ -279,8 +253,6 @@
     color: var(--dark);
     line-height: 1.25;
   }
-  .answer-chip .bazhang { width: 16px; height: 16px; }
-
   .tease-chip {
     display: inline-flex;
     align-items: center;
@@ -295,8 +267,6 @@
     font-style: italic;
     line-height: 1.25;
   }
-  .tease-chip .bazhang { width: 15px; height: 15px; }
-
   /* the playful "not yet" line shown on tap of a waiting session */
   .notyet {
     margin: 9px 0 0;
@@ -382,7 +352,6 @@
     <div class="hero-card">
       <p class="line1" id="hero-line1"></p>
       <p class="instruction" id="hero-instruction"></p>
-      <a class="pill" id="start-pill" href="#days"></a>
     </div>
   </header>
 
@@ -409,7 +378,6 @@ const CONFIG = {
     subline: "happy birthday, fiancée",
     line1: "Our first birthday as an us.",
     instruction: "Tap to guess — each one shows itself right when it begins.",
-    pill: "Start here ↓",
   },
 
   footer: "Ryan ♡ Yvonne",
@@ -425,13 +393,12 @@ const CONFIG = {
     {
       dateISO: "2026-06-24",
       dateLabel: "24 June",
-      title: "Two Quiet Firsts",
+      title: "Platter and Scatter",
       sessions: [
         {
           unlockISO: "2026-06-24T14:00:00+08:00",
           riddle: "The taste that means home to you, the one you'd choose over anything fancier.",
           answer: "Your favourite ba zhang",
-          garnish: true,
         },
         {
           unlockISO: "2026-06-24T20:00:00+08:00",
@@ -499,7 +466,7 @@ const CONFIG = {
     unlockISO: "2026-06-27T00:00:00+08:00",
     heading: "One more thing",
     lockedLabel: "Opens on your birthday.",
-    note: "[PERSONAL NOTE — owner to write. First birthday as my fiancée, etc.]",
+    note: "If it’s you, anywhere just feels right.\n\nYou’ve been my sunshine. I want to spend the rest of my life being yours.\n\nI love doing all the small things with you, and looking for new adventures with you just the same. This is the only birthday we’ll ever spend engaged. Next year I get to call you my wife.\n\nAnd we’ll celebrate every single birthday feeling grateful for the fact that we have each other.\n\nYou’re the greatest gift to me. I love you.",
   },
 };
 
@@ -541,20 +508,6 @@ function teaseFor(unlockISO) {
 }
 
 /* ============================================================
-   THE BA ZHANG ICON (PRD §4.8) — inline SVG, used sparingly.
-   Rounded green pyramid, two leaf-tones, pale string wraps + knot.
-   ============================================================ */
-function bazhangSVG() {
-  return `<svg class="bazhang" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-    <path d="M12 3.4c.6 0 1.1.32 1.42.86l7.1 12.1c.7 1.2-.16 2.7-1.55 2.7H4.93c-1.39 0-2.25-1.5-1.55-2.7l7.1-12.1c.32-.54.83-.86 1.42-.86z" fill="#6CA66B"/>
-    <path d="M12 3.4c.6 0 1.1.32 1.42.86l7.1 12.1c.7 1.2-.16 2.7-1.55 2.7H12V3.4z" fill="#4F8B52"/>
-    <path d="M12 4.6 5.0 16.7h14L12 4.6z" stroke="#EDE3CF" stroke-width="1.3" stroke-linejoin="round" opacity="0.85"/>
-    <path d="M6.5 13.9h11" stroke="#EDE3CF" stroke-width="1.2" stroke-linecap="round" opacity="0.85"/>
-    <circle cx="12" cy="4.0" r="1.05" fill="#EDE3CF"/>
-  </svg>`;
-}
-
-/* ============================================================
    RENDER (PRD §4.5, §6, §7)
    ============================================================ */
 function el(tag, cls, html) {
@@ -568,10 +521,9 @@ function renderStatic() {
   const h = CONFIG.hero;
   document.getElementById("hero-eyebrow").textContent = h.eyebrow;
   document.getElementById("hero-headline").textContent = h.headline;
-  document.getElementById("hero-subline").innerHTML = escapeHtml(h.subline) + bazhangSVG();
+  document.getElementById("hero-subline").textContent = h.subline;
   document.getElementById("hero-line1").textContent = h.line1;
   document.getElementById("hero-instruction").textContent = h.instruction;
-  document.getElementById("start-pill").textContent = h.pill;
   document.getElementById("footer").textContent = CONFIG.footer;
 }
 
@@ -591,10 +543,9 @@ function buildSession(sess) {
   body.appendChild(el("p", "riddle", escapeHtml(sess.riddle)));
 
   if (revealed) {
-    const garnish = sess.garnish ? bazhangSVG() : "";
-    body.appendChild(el("span", "answer-chip", escapeHtml(sess.answer) + garnish));
+    body.appendChild(el("span", "answer-chip", escapeHtml(sess.answer)));
   } else {
-    body.appendChild(el("span", "tease-chip", escapeHtml(teaseFor(sess.unlockISO)) + bazhangSVG()));
+    body.appendChild(el("span", "tease-chip", escapeHtml(teaseFor(sess.unlockISO))));
     body.appendChild(el("p", "notyet", escapeHtml(CONFIG.notYetLine)));
   }
 
@@ -669,12 +620,6 @@ function observeReveals() {
   }, { threshold: 0.12 });
   document.querySelectorAll(".reveal-on-scroll").forEach(n => io.observe(n));
 }
-
-/* smooth scroll for the "Start here" pill */
-document.getElementById("start-pill").addEventListener("click", (e) => {
-  e.preventDefault();
-  document.getElementById("days").scrollIntoView({ behavior: "smooth", block: "start" });
-});
 
 /* ============================================================
    STATE RECOMPUTE (PRD §5.3)
