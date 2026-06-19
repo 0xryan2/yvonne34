@@ -109,7 +109,7 @@
   }
   /* frosted card lower in hero */
   .hero-card {
-    margin-top: 30px;
+    margin-top: 52px;
     margin-bottom: 0;
     width: 100%;
     background: rgba(242, 217, 201, 0.62);
@@ -377,7 +377,7 @@ const CONFIG = {
     headline: "Anywhere With You Feels Right",
     subline: "happy birthday, fiancée",
     line1: "Our first birthday as an us.",
-    instruction: "Tap to guess — each one shows itself right when it begins.",
+    instruction: "Tap to guess — each one shows itself<br>right when it begins.",
   },
 
   footer: "Ryan ♡ Yvonne",
@@ -393,7 +393,7 @@ const CONFIG = {
     {
       dateISO: "2026-06-24",
       dateLabel: "24 June",
-      title: "Platter and Scatter",
+      title: "Platter and Spatter",
       sessions: [
         {
           unlockISO: "2026-06-24T14:00:00+08:00",
@@ -414,7 +414,7 @@ const CONFIG = {
       sessions: [
         {
           unlockISO: "2026-06-25T21:00:00+08:00",
-          riddle: "A dark little detour. The kind of fear you only enjoy when you're not facing it alone.",
+          riddle: "The kind of fear you only enjoy when you're not facing it alone.",
           answer: "Thriller theatre night",
         },
       ],
@@ -465,6 +465,7 @@ const CONFIG = {
   final: {
     unlockISO: "2026-06-27T00:00:00+08:00",
     heading: "One more thing",
+    unlockedHeading: "Happy birthday!",
     lockedLabel: "Opens on your birthday.",
     note: "If it’s you, anywhere just feels right.\n\nYou’ve been my sunshine. I want to spend the rest of my life being yours.\n\nI love doing all the small things with you, and looking for new adventures with you just the same. This is the only birthday we’ll ever spend engaged. Next year I get to call you my wife.\n\nAnd we’ll celebrate every single birthday feeling grateful for the fact that we have each other.\n\nYou’re the greatest gift to me. I love you.",
   },
@@ -523,7 +524,7 @@ function renderStatic() {
   document.getElementById("hero-headline").textContent = h.headline;
   document.getElementById("hero-subline").textContent = h.subline;
   document.getElementById("hero-line1").textContent = h.line1;
-  document.getElementById("hero-instruction").textContent = h.instruction;
+  document.getElementById("hero-instruction").innerHTML = h.instruction;
   document.getElementById("footer").textContent = CONFIG.footer;
 }
 
@@ -592,7 +593,7 @@ function buildFinal() {
   const f = CONFIG.final;
   const unlocked = isUnlocked(f.unlockISO);
   const card = el("article", "final reveal-on-scroll " + (unlocked ? "unlocked" : "locked"));
-  card.appendChild(el("p", "eyebrow-final", escapeHtml(f.heading)));
+  card.appendChild(el("p", "eyebrow-final", escapeHtml(unlocked ? f.unlockedHeading : f.heading)));
   card.appendChild(el("p", "final-body", escapeHtml(unlocked ? f.note : f.lockedLabel)));
   return card;
 }
