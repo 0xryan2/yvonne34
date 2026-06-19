@@ -109,7 +109,7 @@
   }
   /* frosted card lower in hero */
   .hero-card {
-    margin-top: 52px;
+    margin-top: 38svh;
     margin-bottom: 0;
     width: 100%;
     background: rgba(242, 217, 201, 0.62);
@@ -376,8 +376,8 @@ const CONFIG = {
     eyebrow: "27 JUNE 2026",
     headline: "Anywhere With You Feels Right",
     subline: "happy birthday, fiancée",
-    line1: "Our first birthday as an us.",
-    instruction: "Tap to guess — each one shows itself<br>right when it begins.",
+    line1: "Your first birthday as an us.",
+    instruction: "Each one shows itself right when it begins.",
   },
 
   footer: "Ryan ♡ Yvonne",
@@ -524,7 +524,7 @@ function renderStatic() {
   document.getElementById("hero-headline").textContent = h.headline;
   document.getElementById("hero-subline").textContent = h.subline;
   document.getElementById("hero-line1").textContent = h.line1;
-  document.getElementById("hero-instruction").innerHTML = h.instruction;
+  document.getElementById("hero-instruction").textContent = h.instruction;
   document.getElementById("footer").textContent = CONFIG.footer;
 }
 
