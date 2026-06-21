@@ -48,7 +48,58 @@
     margin: 0 auto;
     padding: 0 var(--pad) calc(var(--pad) + env(safe-area-inset-bottom));
     position: relative;
+    z-index: 1;            /* sit above the falling petals */
   }
+
+  /* ----------  FALLING FLOWERS  ---------- */
+  #petals {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;  /* never block taps */
+    z-index: 0;
+  }
+  .petal {
+    position: absolute;
+    top: -8vh;
+    will-change: transform;
+    line-height: 1;
+    user-select: none;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  @keyframes fall {
+    0%   { transform: translate3d(0, -8vh, 0) rotate(0deg); }
+    50%  { transform: translate3d(18px, 55vh, 0) rotate(180deg); }
+    100% { transform: translate3d(-12px, 112vh, 0) rotate(360deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .petal { display: none; }   /* respect motion preferences */
+  }
+
+  /* ----------  MUSIC PLAY BUTTON  ---------- */
+  .play-btn {
+    display: block;
+    margin: 22px auto 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.45);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    color: var(--dark);
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    transition: transform .15s ease, background .2s ease;
+    box-shadow: 0 4px 14px rgba(110,68,63,0.12);
+  }
+  .play-btn:hover  { background: rgba(255,255,255,0.6); }
+  .play-btn:active { transform: scale(0.93); }
 
   /* ----------  HERO (PRD §4.4)  ---------- */
   .hero {
@@ -342,12 +393,16 @@
 </style>
 </head>
 <body>
+<div id="petals" aria-hidden="true"></div>
+
 <main class="wrap">
   <!-- ========== HERO ========== -->
   <header class="hero">
     <p class="eyebrow" id="hero-eyebrow"></p>
     <h1 class="headline" id="hero-headline"></h1>
     <p class="subline" id="hero-subline"></p>
+
+    <button id="play-btn" class="play-btn" aria-label="Play music">▶</button>
 
     <div class="hero-card">
       <p class="line1" id="hero-line1"></p>
@@ -633,6 +688,56 @@ document.addEventListener("visibilitychange", () => {
 
 // optional low-frequency refresh while left open
 setInterval(() => { if (!document.hidden) render(); }, 5 * 60 * 1000);
+
+/* ============================================================
+   FALLING FLOWERS — subtle, varied, behind the content
+   ============================================================ */
+(function petals() {
+  const layer = document.getElementById("petals");
+  if (!layer) return;
+  const GLYPHS = ["\u{1F338}", "\u{1F33C}", "❀"]; // cherry blossom, blossom, floral heart
+  const COUNT = 14;
+  const rand = (min, max) => min + Math.random() * (max - min);
+
+  for (let i = 0; i < COUNT; i++) {
+    const p = document.createElement("span");
+    p.className = "petal";
+    p.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+    p.style.left = rand(0, 100) + "vw";
+    p.style.fontSize = rand(10, 20).toFixed(1) + "px";          // small, varied
+    p.style.opacity = rand(0.22, 0.6).toFixed(2);               // see-through
+    p.style.filter = "sepia(0.5) saturate(0.7) brightness(1.25)"; // warm cream tint
+    p.style.animationDuration = rand(7, 15).toFixed(1) + "s";   // varied speed
+    p.style.animationDelay = (-rand(0, 12)).toFixed(1) + "s";   // stagger, pre-roll
+    layer.appendChild(p);
+  }
+})();
+
+/* ============================================================
+   BACKGROUND MUSIC — chorus loop, toggled by the play button
+   ============================================================ */
+(function music() {
+  const btn = document.getElementById("play-btn");
+  if (!btn) return;
+  const audio = new Audio("audio/chorus.mp3");
+  audio.loop = true;
+  audio.preload = "auto";
+
+  btn.addEventListener("click", () => {
+    if (audio.paused) {
+      audio.play().then(() => {
+        btn.classList.add("playing");
+        btn.textContent = "⏸"; // pause glyph
+        btn.setAttribute("aria-label", "Pause music");
+      }).catch(() => { /* missing file / blocked — fail silently */ });
+    } else {
+      audio.pause();
+      btn.classList.remove("playing");
+      btn.textContent = "▶"; // play glyph
+      btn.setAttribute("aria-label", "Play music");
+    }
+  });
+})();
 </script>
 </body>
 </html>
