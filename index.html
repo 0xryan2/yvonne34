@@ -468,6 +468,12 @@ const CONFIG = {
       title: "A Dark Little Detour",
       sessions: [
         {
+          unlockISO: "2026-06-25T18:00:00+08:00",
+          riddle: "Surprise-ception! Here’s to more unexpected joys with you.",
+          answer: "Pizza date",
+          hidden: true,
+        },
+        {
           unlockISO: "2026-06-25T21:00:00+08:00",
           riddle: "The kind of fear you only enjoy when you're not facing it alone.",
           answer: "Thriller theatre night",
@@ -588,6 +594,7 @@ function escapeHtml(s) {
 }
 
 function buildSession(sess) {
+  if (sess.hidden && !isUnlocked(sess.unlockISO)) return null;
   const revealed = isUnlocked(sess.unlockISO);
   const btn = el("button", "session " + (revealed ? "revealed" : "waiting"));
   btn.type = "button";
@@ -634,7 +641,7 @@ function buildDay(day) {
   // Locked day shows NO riddles (PRD §4.5 / §7)
   if (unlocked) {
     const list = el("div", "sessions");
-    day.sessions.forEach(s => list.appendChild(buildSession(s)));
+    day.sessions.forEach(s => { const el = buildSession(s); if (el) list.appendChild(el); });
     card.appendChild(list);
   } else {
     card.setAttribute("tabindex", "0");
